@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977148141535",
+    "project_id": "jobportalapp-ec316",
+    "storage_bucket": "jobportalapp-ec316.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977148141535:android:c8b12a77e414cf8226ee6a",
+        "android_client_info": {
+          "package_name": "com.example.job_portal_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhZNEJSbbzzprxSpFLwW6khawSByx84B0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
