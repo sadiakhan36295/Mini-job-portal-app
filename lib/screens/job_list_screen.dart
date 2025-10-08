@@ -70,7 +70,7 @@ class _JobListScreenState extends State<JobListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AQAL Job Portal'),
+        title: const Text('Job List Page'),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () => _openSearchModal(jobProv))
         ],
@@ -90,32 +90,34 @@ class _JobListScreenState extends State<JobListScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        selectedItemColor: const Color(0xFF0D47A1),
-        onTap: (i) {
-          setState(() => _currentIndex = i);
-          switch (i) {
-            case 0:
-              // already on home
-              break;
-            case 1:
-              Navigator.of(context).pushNamed(AppRoutes.saved);
-              break;
-            case 2:
-              Navigator.of(context).pushNamed(AppRoutes.profile);
-              break;
-            case 3:
-              Navigator.of(context).pushNamed(AppRoutes.settings);
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Saved'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
+  currentIndex: _currentIndex,
+  selectedItemColor: const Color(0xFF0D47A1), // Blue for selected
+  unselectedItemColor: Colors.black, // Black for others
+  onTap: (i) {
+    setState(() => _currentIndex = i);
+    switch (i) {
+      case 0:
+        // already on home
+        break;
+      case 1:
+        Navigator.of(context).pushNamed(AppRoutes.saved);
+        break;
+      case 2:
+        Navigator.of(context).pushNamed(AppRoutes.profile);
+        break;
+      case 3:
+        Navigator.of(context).pushNamed(AppRoutes.settings);
+        break;
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Saved'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+  ],
+),
+
     );
   }
 }

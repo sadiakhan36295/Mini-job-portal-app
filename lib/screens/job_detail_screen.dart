@@ -16,29 +16,38 @@ class JobDetailScreen extends StatelessWidget {
       appBar: AppBar(title: Text(job.title)),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(job.company, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-          const SizedBox(height: 6),
-          Text('${job.location} • \$${job.salary}'),
-          const SizedBox(height: 12),
-          Text('Category: ${job.category}'),
-          const SizedBox(height: 12),
-          Expanded(child: SingleChildScrollView(child: Text(job.description))),
-          Row(
+        child: SingleChildScrollView( // Make entire content scrollable
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton.icon(
-                icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
-                label: Text(isSaved ? 'Saved' : 'Save'),
-                onPressed: () => context.read<SavedProvider>().toggleSaved(job),
-              ),
-              const SizedBox(width: 12),
-              ElevatedButton(
-                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Applied to ${job.title}'))),
-                child: const Text('Apply'),
+              Text(job.company,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
+              const SizedBox(height: 6),
+              Text('${job.location} • \$${job.salary}'),
+              const SizedBox(height: 12),
+              Text('Category: ${job.category}'),
+              const SizedBox(height: 12),
+              Text(job.description),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
+                    label: Text(isSaved ? 'Saved' : 'Save'),
+                    onPressed: () => context.read<SavedProvider>().toggleSaved(job),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Applied to ${job.title}'))),
+                    child: const Text('Apply'),
+                  )
+                ],
               )
             ],
-          )
-        ]),
+          ),
+        ),
       ),
     );
   }
