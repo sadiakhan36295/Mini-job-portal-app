@@ -1,54 +1,52 @@
 import 'package:flutter/material.dart';
-import '../models/job.dart';
+import 'package:provider/provider.dart';
+import '../models/job_model.dart';
+import '../providers/saved_provider.dart';
+import '../routes/app_routes.dart';
 
 class JobCard extends StatelessWidget {
   final Job job;
-  final VoidCallback onTap;
-  final VoidCallback onApply;
-  final VoidCallback onSave;
-  final bool saved;
-
-  const JobCard({
-    Key? key,
-    required this.job,
-    required this.onTap,
-    required this.onApply,
-    required this.onSave,
-    this.saved = false,
-  }) : super(key: key);
+  const JobCard({Key? key, required this.job}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final savedProv = context.watch<SavedProvider>();
+    final isSaved = savedProv.isSaved(job.id);
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
-        onTap: onTap,
+        onTap: () => Navigator.of(context).pushNamed(AppRoutes.jobDetail, arguments: job),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(job.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              SizedBox(height: 6),
+              Row(
+                children: [
+                  Expanded(child: Text(job.title, style: const TextStyle(fontWeight: FontWeight.bold))),
+                  IconButton(
+                    icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
+                    onPressed: () => context.read<SavedProvider>().toggleSaved(job),
+                  )
+                ],
+              ),
+              const SizedBox(height: 6),
               Row(
                 children: [
                   Expanded(child: Text('${job.company} • ${job.location}')),
-                  Text('\$${job.salary.toStringAsFixed(0)}'),
+                  Text('\$${job.salary}', style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(saved ? Icons.bookmark : Icons.bookmark_border),
-                    onPressed: onSave,
-                  ),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: onApply,
-                    child: Text('Apply'),
-                  ),
-                ],
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // In a real app open apply URL or form
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Applied to ${job.title}')));
+                  },
+                  child: const Text('Apply'),
+                ),
               )
             ],
           ),

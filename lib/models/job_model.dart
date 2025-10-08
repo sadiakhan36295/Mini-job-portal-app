@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 class Job {
   final int id;
   final String title;
   final String company;
   final String location;
-  final double salary;
+  final int salary;
   final String description;
   final String category;
 
@@ -20,15 +18,14 @@ class Job {
   });
 
   factory Job.fromJson(Map<String, dynamic> json) {
-    // Using dummyjson products -> mapping fields to a job
     return Job(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? 'Untitled',
-      company: json['brand'] ?? 'Unknown',
-      location: json['category'] ?? 'Remote',
-      salary: (json['price'] ?? 0).toDouble(),
+      id: json['id'] is int ? json['id'] : int.parse(json['id'].toString()),
+      title: json['title'] ?? '',
+      company: json['company'] ?? json['brand'] ?? 'Company',
+      location: json['location'] ?? 'Remote',
+      salary: json['salary'] is int ? json['salary'] : (json['price'] ?? 0).toInt(),
       description: json['description'] ?? '',
-      category: json['category'] ?? '',
+      category: json['category'] ?? 'General',
     );
   }
 
@@ -41,7 +38,4 @@ class Job {
         'description': description,
         'category': category,
       };
-
-  String toJsonString() => jsonEncode(toJson());
-  factory Job.fromJsonString(String s) => Job.fromJson(jsonDecode(s));
 }
