@@ -13,7 +13,7 @@ class SavedProvider extends ChangeNotifier {
   Future<void> loadSaved() async {
     loading = true;
     notifyListeners();
-    await SavedJobsDatabase.init();
+    await SavedJobsDatabase.init(); // safe-guard (no-op if already inited)
     saved = await SavedJobsDatabase.getSavedJobs();
     loading = false;
     notifyListeners();
@@ -26,7 +26,7 @@ class SavedProvider extends ChangeNotifier {
     } else {
       await SavedJobsDatabase.insertJob(job);
     }
-    await loadSaved();
+    await loadSaved(); // reload to update saved list & notify listeners
   }
 
   bool isSaved(int id) => saved.any((j) => j.id == id);

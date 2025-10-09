@@ -12,6 +12,7 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final savedProv = context.watch<SavedProvider>();
     final isSaved = savedProv.isSaved(job.id);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
@@ -26,7 +27,12 @@ class JobCard extends StatelessWidget {
                   Expanded(child: Text(job.title, style: const TextStyle(fontWeight: FontWeight.bold))),
                   IconButton(
                     icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
-                    onPressed: () => context.read<SavedProvider>().toggleSaved(job),
+                    onPressed: () async {
+                      await context.read<SavedProvider>().toggleSaved(job);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(isSaved ? 'Removed from saved' : 'Saved to Saved Jobs')),
+                      );
+                    },
                   )
                 ],
               ),
@@ -42,8 +48,10 @@ class JobCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
                   onPressed: () {
-                    // In a real app open apply URL or form
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Applied to ${job.title}')));
+                    // if you want Apply to also save, call toggleSaved here or call a separate apply method
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Applied to ${job.title} (demo)')),
+                    );
                   },
                   child: const Text('Apply'),
                 ),

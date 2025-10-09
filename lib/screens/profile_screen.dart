@@ -10,26 +10,60 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final savedProv = context.watch<SavedProvider>();
     final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Profile')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(children: [
-          CircleAvatar(radius: 40, child: const Icon(Icons.person, size: 40)),
-          const SizedBox(height: 12),
-          Text(user?.displayName ?? 'Dummy User', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-          const SizedBox(height: 6),
-          Text(user?.email ?? 'user@example.com'),
-          const SizedBox(height: 12),
-          Text('Total saved: ${savedProv.saved.length}'),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-            },
-            child: const Text('Sign out'),
-          )
-        ]),
+      body: Center( // ✅ centers horizontally
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60), // 👈 balanced top spacing
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center, // ✅ ensures perfect center alignment
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  child: Icon(Icons.person, size: 50),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  user?.displayName ?? 'Dummy User',
+                  textAlign: TextAlign.center, // ✅ center text
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  user?.email ?? 'user@example.com',
+                  textAlign: TextAlign.center, // ✅ center text
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Total saved: ${savedProv.saved.length}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Signed out successfully')),
+                    );
+                  },
+                  icon: const Icon(Icons.logout),
+                  label: const Text('Sign Out'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

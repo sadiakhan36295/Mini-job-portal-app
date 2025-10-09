@@ -17,7 +17,7 @@ class SavedJobsDatabase {
         await db.execute('''
           CREATE TABLE saved_jobs (
             id INTEGER PRIMARY KEY,
-            job_json TEXT
+            job_json TEXT NOT NULL
           )
         ''');
       },

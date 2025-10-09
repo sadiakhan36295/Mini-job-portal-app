@@ -9,6 +9,7 @@ class SavedJobsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savedProv = context.watch<SavedProvider>();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Saved Jobs')),
       body: Padding(
