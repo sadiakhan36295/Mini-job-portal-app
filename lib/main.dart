@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_portal_app/providers/applied_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => JobProvider()),
         ChangeNotifierProvider(create: (_) => SavedProvider()),
+        ChangeNotifierProvider(create: (_) => AppliedProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

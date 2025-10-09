@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/job_model.dart';
 import '../providers/saved_provider.dart';
+import '../providers/applied_provider.dart';
+import '../routes/app_routes.dart';
 
 class JobDetailScreen extends StatelessWidget {
   static const routeName = '/job-detail';
@@ -11,7 +13,9 @@ class JobDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savedProv = context.watch<SavedProvider>();
+    final appliedProv = context.watch<AppliedProvider>();
     final isSaved = savedProv.isSaved(job.id);
+    final isApplied = appliedProv.isApplied(job.id);
 
     return Scaffold(
       appBar: AppBar(title: Text(job.title)),
@@ -40,14 +44,28 @@ class JobDetailScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 12),
-                ElevatedButton(
-                  onPressed: () {
-                    // Save apply behavior if you want: insert into 'applied' table
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Applied to ${job.title} (demo)')),
-                    );
-                  },
-                  child: const Text('Apply'),
+                ElevatedButton.icon(
+                  icon: Icon(isApplied ? Icons.check_circle : Icons.send),
+                  label: Text(isApplied ? 'Applied' : 'Apply'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isApplied ? Colors.grey : null,
+                  ),
+                  onPressed: isApplied
+                      ? null
+                      : () async {
+                          await context.read<AppliedProvider>().addApplied(job);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Applied to ${job.title}'),
+                              action: SnackBarAction(
+                                label: 'View',
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(AppRoutes.applied);
+                                },
+                              ),
+                            ),
+                          );
+                        },
                 ),
               ],
             )

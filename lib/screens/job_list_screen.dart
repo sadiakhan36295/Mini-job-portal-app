@@ -105,16 +105,14 @@ class _JobListScreenState extends State<JobListScreen> {
       case 2:
         Navigator.of(context).pushNamed(AppRoutes.profile);
         break;
-      case 3:
-        Navigator.of(context).pushNamed(AppRoutes.settings);
-        break;
+     
     }
   },
   items: const [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Saved'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+   
   ],
 ),
 

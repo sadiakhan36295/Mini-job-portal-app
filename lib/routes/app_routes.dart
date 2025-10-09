@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:job_portal_app/screens/applied_job_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/job_list_screen.dart';
 import '../screens/job_detail_screen.dart';
 import '../screens/saved_jobs_screen.dart';
 import '../screens/profile_screen.dart';
-import '../screens/settings_screen.dart';
 import '../models/job_model.dart';
 
 class AppRoutes {
@@ -16,6 +16,7 @@ class AppRoutes {
   static const String saved = '/saved';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String applied = '/applied';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -32,10 +33,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SavedJobsScreen());
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
-      case settings:
-        return MaterialPageRoute(builder: (_) => const SettingsScreen());
+     
+        case applied:
+        return MaterialPageRoute(builder: (_) => const AppliedJobsScreen());
       default:
         return MaterialPageRoute(builder: (_) => const JobListScreen());
+        
     }
   }
 }
